@@ -6,7 +6,7 @@
 # <https://github.com/jzhou404/Openwrt_Clould-compile>
 #
 
-name: Openwrt Compiling
+name: x86-64
 
 on:
   push:
@@ -72,7 +72,7 @@ jobs:
       - name : Upload artifact
         uses: actions/upload-artifact@master
         with:
-          name: Openwrt_firmware
+          name: Openwrt_firmware-x86-64
           path: bin/targets/
           
           
