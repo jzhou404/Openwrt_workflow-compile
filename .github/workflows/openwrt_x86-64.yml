@@ -38,7 +38,7 @@ jobs:
       - name: Download coolsnowwolf lede
         run: |
           git clone https://github.com/coolsnowwolf/lede
-          cp .config ./lede/.config
+          cp .config_x86-64 ./lede/.config
           mv ./lede/* ./
           
       - name: Install SSR Support
