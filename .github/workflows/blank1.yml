@@ -1,0 +1,76 @@
+#
+# This is free software, lisence use GPL 3.0.
+# 
+# Copyright (C) 2022 jzhou404 <jzhou404@gmail.com>
+#
+# <https://github.com/jzhou404/Openwrt_Clould-compile>
+#
+
+name: x86-64
+
+on:
+  push:
+    branches: 
+      - master
+#  schedule:
+#    - cron: 0 2 * * *
+  watch:
+    types: started
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    if: github.event.repository.owner.id == github.event.sender.id
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@master
+
+      - name: Initialization Ubuntu Compiling Environment
+        env:
+          DEBIAN_FRONTEND: noninteractive
+        run: |
+          sudo -E apt-get -yqq update
+          sudo -E apt-get -yqq install build-essential asciidoc binutils bzip2 gawk gettext git libncurses5-dev libz-dev patch python3 unzip zlib1g-dev lib32gcc1 libc6-dev-i386 subversion flex uglifyjs git-core gcc-multilib p7zip p7zip-full msmtp libssl-dev texinfo libglib2.0-dev xmlto qemu-utils upx libelf-dev autoconf automake libtool autopoint device-tree-compiler g++-multilib
+          sudo -E apt-get -y autoremove --purge
+          sudo -E apt-get clean
+          
+      - name: Download coolsnowwolf lede
+        run: |
+          git clone https://github.com/coolsnowwolf/lede
+          cp .config_x86-64 ./lede/.config
+          mv ./lede/* ./
+          
+      - name: Install SSR Support
+        run: |
+          echo "src-git helloworld https://github.com/fw876/helloworld" >> ./feeds.conf.default 
+          
+      - name: Install bandwidthd
+        run: |
+         git clone https://github.com/AlexZhuo/luci-app-bandwidthd.git package/luci-app-bandwidthd
+          
+      - name: Update feeds
+        run: |
+          ./scripts/feeds update -a
+          ./scripts/feeds install -a
+          
+      - name: Customize Configure File
+        run: |
+          make defconfig
+          
+      - name: Download Package Source Code
+        run: |
+          make download -j$(nproc)
+          find dl -size -1024c -exec ls -l {} \;
+          find dl -size -1024c -exec rm -f {} \;
+          
+      - name: Compile firmware
+        run: |
+          echo -e "$(nproc) thread build."
+          make -j$(nproc) V=s
+          
+      - name : Upload artifact
+        uses: actions/upload-artifact@master
+        with:
+          name: Openwrt_firmware-x86-64
+          path: bin/targets/
