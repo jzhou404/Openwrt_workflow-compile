@@ -39,7 +39,7 @@ jobs:
         run: |
           git clone https://github.com/coolsnowwolf/lede
           cp .config ./lede/.config
-          mv ./lede/* ./
+     #    mv ./lede/* ./
           
       - name: Install SSR Support
         run: |
