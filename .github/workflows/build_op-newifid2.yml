@@ -20,22 +20,18 @@ env:
   DIY_P2_SH: diy-part2.sh
   UPLOAD_BIN_DIR: false
   UPLOAD_FIRMWARE: true
-  UPLOAD_COWTRANSFER: false
-  UPLOAD_WETRANSFER: false
   UPLOAD_RELEASE: false
   TZ: Asia/Shanghai
 
 jobs:
   build:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
 
     steps:
     - name: Checkout
       uses: actions/checkout@main
 
     - name: Initialization environment
-      env:
-        DEBIAN_FRONTEND: noninteractive
       run: |
         sudo rm -rf /etc/apt/sources.list.d/* /usr/share/dotnet /usr/local/lib/android /opt/ghc
         sudo -E apt-get -qq update
@@ -46,27 +42,31 @@ jobs:
         sudo mkdir -p /workdir
         sudo chown $USER:$GROUPS /workdir
         
-    - name: Clone source code
+    - name: Gitclone coolsnowwolf code
       working-directory: /workdir
       run: |
         df -hT $PWD
         git clone $REPO_URL -b $REPO_BRANCH openwrt
         ln -sf /workdir/openwrt $GITHUB_WORKSPACE/openwrt
         
-    - name: Patch SSR support to feeds.conf
+    - name: Patch feeds.conf
       run: |
           echo "src-git helloworld https://github.com/fw876/helloworld" >> openwrt/feeds.conf.default
           
-    - name: Gitclone other's support
+    - name: Gitclone other's code
       run: |
           cd openwrt/package/lean
           git clone https://github.com/AlexZhuo/luci-app-bandwidthd.git
           
     - name: Update feeds
-      run: cd openwrt && ./scripts/feeds update -a
+      run: |
+       cd openwrt
+       ./scripts/feeds update -a
 
     - name: Install feeds
-      run: cd openwrt && ./scripts/feeds install -a 
+      run: |
+       cd openwrt
+       ./scripts/feeds install -a 
       
     - name: Load custom configuration
       run: |
