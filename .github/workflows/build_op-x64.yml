@@ -3,7 +3,7 @@
 # 
 # Copyright (C) 2022 jzhou404 <jzhou404@gmail.com>
 #
-# <https://github.com/jzhou404/Openwrt_Clould-compile>
+# <https://github.com/jzhou404/Openwrt_workflow-compile>
 #
 
 name: Build OP-x64
