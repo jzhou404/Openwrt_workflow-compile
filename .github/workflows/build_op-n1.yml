@@ -6,7 +6,7 @@
 # <https://github.com/jzhou404/Openwrt_workflow-compile>
 #
 
-name: Build OP-e8820s
+name: Build OP-n1
 
 on:
   repository_dispatch:
@@ -16,7 +16,7 @@ env:
   REPO_URL: https://github.com/coolsnowwolf/lede
   REPO_BRANCH: master
   FEEDS_CONF: feeds.conf.default
-  CONFIG_FILE: e8820s.config
+  CONFIG_FILE: n1.config
   UPLOAD_FIRMWARE: true
   UPLOAD_RELEASE: false
   TZ: Asia/Shanghai
@@ -55,6 +55,7 @@ jobs:
       run: |
           cd openwrt/package/lean
           git clone https://github.com/AlexZhuo/luci-app-bandwidthd.git
+          git clone https://github.com/ophub/luci-app-amlogic
           
     - name: Update feeds
       run: |
