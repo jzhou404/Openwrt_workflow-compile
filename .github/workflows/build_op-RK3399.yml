@@ -6,7 +6,7 @@
 # <https://github.com/jzhou404/Openwrt_workflow-compile>
 #
 
-name: Build RK3399
+name: Build OP-RK3399
 
 on:
   repository_dispatch:
