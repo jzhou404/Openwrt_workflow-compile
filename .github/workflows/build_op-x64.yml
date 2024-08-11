@@ -32,6 +32,25 @@ jobs:
     - name: Initialization environment
       run: |
         sudo rm -rf /etc/apt/sources.list.d/* /usr/share/dotnet /usr/local/lib/android /opt/ghc
+        sudo rm -rf /usr/share/dotnet
+        sudo rm -rf /opt/ghc
+        sudo rm -rf "/usr/local/share/boost"
+        sudo rm -rf "$AGENT_TOOLSDIRECTORY"
+        sudo rm -rf \
+        "$AGENT_TOOLSDIRECTORY" \
+        /opt/google/chrome \
+        /opt/microsoft/msedge \
+        /opt/microsoft/powershell \
+        /opt/pipx \
+        /usr/lib/mono \
+        /usr/local/julia* \
+        /usr/local/lib/android \
+        /usr/local/lib/node_modules \
+        /usr/local/share/chromium \
+        /usr/local/share/powershell \
+        /usr/share/dotnet \
+        /usr/share/swift
+        df -h /
         sudo -E apt-get -qq update -y
         sudo -E apt-get -qq install -y ack antlr3 asciidoc autoconf automake autopoint binutils bison build-essential
         sudo -E apt-get -qq install -y bzip2 ccache cmake cpio curl device-tree-compiler fastjar flex gawk gettext gcc-multilib g++-multilib
