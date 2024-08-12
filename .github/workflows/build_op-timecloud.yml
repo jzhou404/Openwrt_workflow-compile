@@ -6,7 +6,7 @@
 # <https://github.com/jzhou404/Openwrt_workflow-compile>
 #
 
-name: Build OP-timecloud
+name: Build OP-x64-2
 
 on:
   repository_dispatch:
