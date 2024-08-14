@@ -43,6 +43,7 @@ jobs:
           sudo -E apt clean
           sudo -E timedatectl set-timezone "Asia/Shanghai"
           sudo mkdir -p /workdir
+          sudo chown $USER:$GROUPS /workdir
         
     - name: Git clone coolsnowwolf code
       working-directory: /workdir
