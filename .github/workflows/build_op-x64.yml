@@ -37,6 +37,11 @@ jobs:
           sudo apt-get clean
           sudo timedatectl set-timezone "$TZ"
 
+      - name: Create work directory
+        run: |
+          sudo mkdir -p /workdir
+          sudo chown -R $USER:$USER /workdir
+
       - name: Git clone coolsnowwolf code
         working-directory: /workdir
         run: |
@@ -126,4 +131,3 @@ jobs:
           delete_tags: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          
